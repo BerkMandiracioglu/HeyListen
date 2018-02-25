@@ -1,8 +1,10 @@
 # Welcome to HeyListen
 
-## HeyListen will be a social media where we will listen music and have fun
+![sampleimage](https://mikestrauss.net/wp-content/uploads/2017/07/The-Fight-Against-Listening-Music.jpg)
 
-### Project Members:
+## HeyListen is where people meet and listen
+
+### :star: Project Members :star:
 - Arkın Yılmaz
 - İrem Ural
 - Anıl Erken
@@ -10,24 +12,5 @@
 
 
 
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-
-
+### The Project Proposal:
+[proposal](google.com)
