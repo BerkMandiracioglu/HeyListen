@@ -11,6 +11,5 @@
 - Berk Mandıracıoğlu
 
 
+### The Project Proposal: [click here](https://github.com/BerkMandiracioglu/HeyListen/blob/master/Documents/hw2.pdf)
 
-### The Project Proposal:
-[proposal](google.com)
