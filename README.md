@@ -11,5 +11,5 @@
 - Berk Mandıracıoğlu
 
 
-### The Project Proposal: [click here to download](https://github.com/BerkMandiracioglu/HeyListen/raw/master/Documents/hw2.pdf)
+### The Project Proposal: [click here to download](https://github.com/BerkMandiracioglu/HeyListen/raw/master/Documents/CS353_projectProposal_group16.pdf)
 
