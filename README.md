@@ -12,5 +12,4 @@
 
 
 ### The Project Proposal: [click here to download](https://github.com/BerkMandiracioglu/HeyListen/raw/master/Documents/CS353_projectProposal_group16.pdf)
-### The Project Design Report: [click here to download]
-(https://github.com/BerkMandiracioglu/HeyListen/raw/master/Documents/cs353_DesignDocument_group16.pdf)
+### The Project Design Report: [click here to download](https://github.com/BerkMandiracioglu/HeyListen/raw/master/Documents/cs353_DesignDocument_group16.pdf)
