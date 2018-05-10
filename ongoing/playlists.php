@@ -126,6 +126,7 @@
 			</div>
 			</th>
         </tr>
+        <br>
         </thead>
         <tbody>
 		<?php
