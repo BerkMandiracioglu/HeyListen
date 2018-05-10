@@ -69,15 +69,15 @@
 					else 
 					{
 						$warningInvalid = "Invalid credentials." ;
-						echo $warningInvalid;
+						
 					}
 				}
 				else{
-					echo "Two passwords are not the same or your password is too short" . "<br>";
+					$warningTooShort =  "Two passwords are not the same or your password is too short" . "<br>";
 				}
 			}
 			else{
-				echo "Username already exists" . "<br>";
+				$warningAlreadyExist = "Username already exists" . "<br>";
 			}
 		}
 	}	
@@ -108,6 +108,7 @@
     </div>
 
 
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-6">
@@ -121,6 +122,13 @@
                         <footer>Bob Marley</footer>
                     </blockquote>
                 </div>
+
+                <span class="error"><font color="red"> <?php echo $warningInvalid;?></font></span>
+                <span class="error"><font color="red"> <?php echo $warningUsertype;?></font></span>
+                <span class="error"><font color="red">  <?php echo $warningCountry;?></font></span>
+                <span class="error"><font color="red">  <?php echo $warningRepassword;?></font></span>
+                <span class="error"><font color="red">  <?php echo $warningAlreadyExist;?></font></span>
+                <span class="error"><font color="red">  <?php echo $warningTooShort;?></font></span>
 
                 <div  class="row top15">
 
@@ -148,9 +156,9 @@
 	
                     <div class="container top7">
                         <button name = "registerbutton" type="submit" class="btn btn-success">Register</button>
-                        <label class="radio-inline"><input type="radio" value="0" name="radio">Guest</label>
-                        <label class="radio-inline"><input type="radio" value="1" name="radio">Singer</label>
-                        <label class="radio-inline"><input type="radio" value="2" name="radio">Production Company</label>
+                        <label class="radio-inline"><input type="radio" value="1" name="radio">Guest</label>
+                        <label class="radio-inline"><input type="radio" value="2" name="radio">Singer</label>
+                        <label class="radio-inline"><input type="radio" value="3" name="radio">Production Company</label>
 
                     </div>
 
