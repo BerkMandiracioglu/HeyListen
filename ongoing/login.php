@@ -12,19 +12,19 @@ session_start();
 		
 	if(empty($userID))
 	{
-		$warning = "true";
+		$warning = true;
 		$warningUserName =  "Please enter your username";
 	}
 	
 	if(empty($password))
         {
-		$warning = "true";
+		$warning = true;
 		$warningPassword = "Please enter your password";
         }
 
 	if( !$warning)
 	{
-		$query = "select * from user where username= '$userID' ";
+		$query = "select * from user where username= '".$userID."' ";
 		$resultOfQuery = mysqli_query($database, $query);
 		$numberOfRows = mysqli_num_rows( $resultOfQuery );
 		$resultRow = mysqli_fetch_assoc($resultOfQuery);
@@ -88,7 +88,9 @@ session_start();
                 </div>
 
                 <div  class="row top15">
-
+                <span class="error"><font color="red"> <?php echo $warningUserName;?></font></span>
+                <span class="error"><font color="red"> <?php echo $warningPassword;?></font></span>
+                <span class="error"><font color="red">  <?php echo $warningInvalid;?></font></span>
                 <form method = "post" action ="login.php">
                     <div class="input-group">
 

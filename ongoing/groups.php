@@ -82,7 +82,19 @@
         <tr>
             <th>Name </th>
             <th>Admin </th>
-            <th> <span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Create Group</span></th>
+            <th> <div class="dropdown">
+                <span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Create New Group</span>
+                <ul class="dropdown-menu">
+                    <li><form >
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Name:" name="credit">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </button>
+                        </div>
+                    </div>
+                    </th>
 
         </tr>
         </thead>

@@ -1,13 +1,40 @@
-<?php
+﻿<?php
 
 	include_once('server.php'); 
 	session_start();
 
-	$query = "select name,time from playlist where username='".$_SESSION['name']."'";   
-	$resultOfQuery = mysqli_query($database, $query);
-	
-	
-	
+	if( isset( $_POST['submitPlaylist']) )
+	{
+		$playlistName = mysqli_real_escape_string( $database, $_POST['playlistName'] );
+		$name = $_SESSION['name'];
+		$queryPlaylist = "insert into playlist (username, name,isPrivate) values('$name', '$playlistName', '0');"; // 0 indicates not private
+		$resultOfQueryAddPlaylist = mysqli_query($database, $queryPlaylist);
+		header('location: playlists.php');
+		
+		/*if(empty($playlistName))
+		{
+			$warningPlaylistName =  "Please enter playlist name";
+			echo $warningPlaylistName;
+		}
+		//if there is a playlist with the same name give warning
+		//otherwise add to list of playlists
+		else{
+			
+			
+			if($resultOfQueryAddPlaylist)
+			{
+					header('location: playlists.php');
+			}
+			else 
+			{
+					$warningInvalidPlaylist = "Playlist with the same name exists" ;
+					echo $warningInvalidPlaylist;
+			}
+		}
+		*/
+		
+		
+	}
 ?>
 
 <!DOCTYPE html>
@@ -20,31 +47,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-<div class="alert alert-success">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-    <strong>Success!</strong>
-    <form>
-        <div class="input-group">
+		
 
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="email" type="text" class="form-control" name="email" placeholder="Playlist-Name">
-        </div>
-
-    </form>
-</div>
-<div class="alert alert-success">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-    <strong>Success!</strong>
-    <form>
-        <div class="input-group">
-
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="grup" type="text" class="form-control" name="email" placeholder="Group-Name">
-        </div>
-
-    </form>
-</div>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -101,7 +107,24 @@
             <th>Name </th>
             <th>Creator </th>
             <th>Date of Creation <span class="glyphicon glyphicon-calendar"></span></th>
-            <th> <span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Add Playlist</span></th>
+			<th>Number of Songs </th>
+            <th> 
+			<div class="dropdown">
+				<span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Add Playlist</span>
+				<ul class="dropdown-menu">
+				<li><form method = "post" action ="playlists.php" >
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter Playlist Name:" name="playlistName">
+     
+                        <button type="submit" name = "submitPlaylist" class="btn btn-primary" >
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </button>
+                  
+                </div>
+				</form></li>
+				</ul>
+			</div>
+			</th>
         </tr>
         </thead>
         <tbody>
@@ -114,14 +137,22 @@
 							<td><?php echo $row['name']; ?></td>
 							<td><?php echo $row['username']; ?></td>
 							<td><?php echo $row['time']; ?></td>
+							<?php 
+								$query2 = "select count(*) as count from playlist_includes where username='".$_SESSION['name']."' and name = '".$row['name']."'";   
+								$resultOfQuery2 = mysqli_query($database, $query2);
+								while( $row2 = mysqli_fetch_assoc($resultOfQuery2) )
+								{?>
+							<td><?php echo $row2['count']; ?></td>
+							<?php } ?>
 							<td>
 							<div class="dropdown">
 								<span class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown"></span>
 
 								<ul class="dropdown-menu">
 									<li><a href="#">View Playlist <span class="glyphicon glyphicon-fire "></span></a></li>
-									<li><a href="#">Share <span class="glyphicon glyphicon-fire "></span></a></li>
-									<li><a href="#">Share in Group <span class="glyphicon glyphicon-fire "></span></a></li>
+									<li><a href="#">Share <span class="glyphicon glyphicon-share "></span></a> </li>
+									<li><a href="#">Share in Group <span class="glyphicon glyphicon-share "></span></a> </li>
+									<li><a href="#">Change Privacy<span class="glyphicon glyphicon-fire "></span></a></li>
 									<li><a href="#">Delete <span class="glyphicon glyphicon-fire "></span></a></li>
 								</ul>
 							</div>
