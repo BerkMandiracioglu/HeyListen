@@ -71,11 +71,11 @@
     </div>
     <br>
     <ul class="nav nav-tabs">
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~arkin.yilmaz/DB/overview.php">Overview</a></li>
-        <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~arkin.yilmaz/DB/playlists.php">Playlists</a></li>
-        <li class="active"><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~arkin.yilmaz/DB/following.php">Groups</a></li>
-        <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~arkin.yilmaz/DB/following.php">Following</a></li>
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~arkin.yilmaz/DB/follower.php">Follower</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/overview.php">Overview</a></li>
+        <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/playlists.php">Playlists</a></li>
+        <li class="active"><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/following.php">Groups</a></li>
+        <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/following.php">Following</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/follower.php">Follower</a></li>
     </ul>
     <table class="table table-hover">
         <thead>

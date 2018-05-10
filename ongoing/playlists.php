@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 	include_once('server.php'); 
 	session_start();
@@ -163,7 +163,8 @@
 								<span class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown"></span>
 
 								<ul class="dropdown-menu">
-									<li><a href="#">View Playlist <span class="glyphicon glyphicon-fire "></span></a></li>
+									
+									<li><a href="playlist.php?name=<?php echo $row['name']?> & creator=<?php echo $row['username'] ?> ">View Playlist <span class="glyphicon glyphicon-fire "></span></a></li>
 									<li><a href="#">Share <span class="glyphicon glyphicon-share "></span></a> </li>
 									<li><a href="#">Share in Group <span class="glyphicon glyphicon-share "></span></a> </li>
 									<li><a href="#">Change Privacy<span class="glyphicon glyphicon-fire "></span></a></li>
