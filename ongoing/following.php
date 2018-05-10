@@ -82,7 +82,6 @@
         <tbody>
 		<?php
 					$query = "select followed_id from follow_user where follower_id='".$_SESSION['name']."'";   
-					$query = "select followed_id from follow_user where follower_id='".$_SESSION['name']."'";   
 					$resultOfQuery = mysqli_query($database, $query);
 					while( $row = mysqli_fetch_assoc($resultOfQuery) )
 					{ ?>		

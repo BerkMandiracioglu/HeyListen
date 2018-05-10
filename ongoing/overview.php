@@ -61,6 +61,66 @@
 
 <div class="container">
     <h1>Your Profile</h1>
+	<br>
+		<?php
+			$query = "select budget from user where username='".$_SESSION['name']."'";   
+			$resultOfQuery = mysqli_query($database, $query);
+			while( $row = mysqli_fetch_assoc($resultOfQuery) )
+					{ ?>		
+						<tr> 
+							<td> <?php echo 'Budget: '; ?> </td>
+							<td><?php  echo $row['budget']; ?></td>
+						</tr>
+					<?php }?>
+	</br>
+	<br>
+	<div class="dropdown">
+                <span class="glyphicon glyphicon-shopping-cart dropdown-toggle" data-toggle="dropdown"> $</span>
+                <ul class="dropdown-menu">
+                    <li><form >
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Name:" name="credit">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <i class="glyphicon glyphicon-tags"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form></li>
+                    <li><form >
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Credit-Card No:" name="credit">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="glyphicon glyphicon-credit-card"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form></li>
+                    <li><form >
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Expiration Date:" name="credit">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form></li>
+                    <li><form >
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="CVC No:" name="credit">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="glyphicon glyphicon-barcode"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form></li>
+                    <li><button type="button" class="btn btn-default">Submit</button></li>
+                </ul>
+            </div>
+	</br>
     <br>
     <div class="dropdown">
         <span class="glyphicon glyphicon-cog dropdown-toggle" data-toggle="dropdown"> Privacy Settings</span>
