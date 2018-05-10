@@ -101,7 +101,6 @@
             <th>Name </th>
             <th>Creator </th>
             <th>Date of Creation <span class="glyphicon glyphicon-calendar"></span></th>
-			<th>Number of Songs </th>
             <th> <span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Add Playlist</span></th>
         </tr>
         </thead>
@@ -115,11 +114,6 @@
 							<td><?php echo $row['name']; ?></td>
 							<td><?php echo $row['username']; ?></td>
 							<td><?php echo $row['time']; ?></td>
-							<?php 
-								$query2 = "select count(*) as count from playlist_includes where username='".$_SESSION['name']."' and name = '$row['name']'";   
-								$resultOfQuery = mysqli_query($database, $query);
-							?>
-							<td><?php echo $resultOfQuery['count']; ?></td>
 							<td>
 							<div class="dropdown">
 								<span class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown"></span>
