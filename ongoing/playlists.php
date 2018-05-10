@@ -3,13 +3,13 @@
 	include_once('server.php'); 
 	session_start();
 
-	if( isset(['submitPlaylist']) )
+	if( isset( $_POST['submitPlaylist']) )
 	{
 		$playlistName = mysqli_real_escape_string( $database, $_POST['playlistName'] );
-		$name = 'irem';
-		$queryPlaylist = "insert into playlist (username, name,isPrivate) values('irem', 'newSummer22', '0');"; // 0 indicates not private
+		$name = $_SESSION['name'];
+		$queryPlaylist = "insert into playlist (username, name,isPrivate) values('$name', '$playlistName', '0');"; // 0 indicates not private
 		$resultOfQueryAddPlaylist = mysqli_query($database, $queryPlaylist);
-		header('location: login.php');
+		header('location: playlists.php');
 		
 		/*if(empty($playlistName))
 		{
@@ -47,23 +47,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-<div class="alert alert-success">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-    <strong>Success!</strong>
-    <form>
-        <div class="input-group">
-
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="email" type="text" class="form-control" name="email" placeholder="Playlist-Name">
-        </div>
-
-    </form>
-</div>	
-			<div class="alert alert-warning">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-				<strong>Warning! There is already a playlist with the same name </strong>
-			</div>	
+		
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -126,15 +112,15 @@
 			<div class="dropdown">
 				<span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Add Playlist</span>
 				<ul class="dropdown-menu">
-				<li><form method = "post" action = "playlist.php">
-					<div class="input-group">
-						<input type="text" placeholder="Enter Playlist Name:" name="playlistName">
-					</div>
-                    <div class= "input-group">
-                        <button type="submit" name = "submitPlaylist" class="btn" >
+				<li><form method = "post" action ="playlists.php" >
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter Playlist Name:" name="playlistName">
+     
+                        <button type="submit" name = "submitPlaylist" class="btn btn-primary" >
                             <i class="glyphicon glyphicon-ok"></i>
                         </button>
-                    </div>
+                  
+                </div>
 				</form></li>
 				</ul>
 			</div>
@@ -164,8 +150,7 @@
 								<span class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown"></span>
 
 								<ul class="dropdown-menu">
-									
-									<li><a href="playlist.php?name=<?php echo $row['name']?> & creator=<?php echo $row['username'] ?> ">View Playlist <span class="glyphicon glyphicon-fire "></span></a></li>
+									<li><a href="playlist.php?name=<?php echo $row['name']?> & creator=<?php echo $row['username']?>">View Playlist <span class="glyphicon glyphicon-fire "></span></a></li>
 									<li><a href="#">Share <span class="glyphicon glyphicon-share "></span></a> </li>
 									<li><a href="#">Share in Group <span class="glyphicon glyphicon-share "></span></a> </li>
 									<li><a href="#">Change Privacy<span class="glyphicon glyphicon-fire "></span></a></li>
