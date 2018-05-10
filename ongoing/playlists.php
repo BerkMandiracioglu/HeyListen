@@ -126,7 +126,7 @@
 			<div class="dropdown">
 				<span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Add Playlist</span>
 				<ul class="dropdown-menu">
-				<li><form >
+				<li><form method = "post" action = "playlist.php">
 					<div class="input-group">
 						<input type="text" placeholder="Enter Playlist Name:" name="playlistName">
 					</div>
