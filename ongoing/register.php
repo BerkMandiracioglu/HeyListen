@@ -50,27 +50,34 @@
 
 		if( !$warning)
 		{
-			if ($_POST["password"] === $_POST["repassword"]){
-				$query = " INSERT INTO user
-				VALUES('$username', '$password', '0', '$country', '0') ; ";
+			// check if username already exists
+			$checkusernamequery = " SELECT * FROM user where username = '$username';";
+			$resultOfQuery = mysqli_query($database, $checkusernamequery);
+			$numberOfRows = mysqli_num_rows( $resultOfQuery );
+			
+			if( $numberOfRows == 0){
+				if ($_POST["password"] === $_POST["repassword"] && strlen($_POST["password"]) >= 6 ){
+					$query = " INSERT INTO user
+							VALUES('$username', '$password', '0', '$country', '0', '$usertype') ; ";
 
-				$resultOfQuery = mysqli_query($database, $query);
-				if( $resultOfQuery )
-				{
-					$_SESSION['name'] = $username;
-					$_SESSION['success'] = "Success";
-					header('location: mainpage.php');
+					$resultOfQuery = mysqli_query($database, $query);
+					if( $resultOfQuery ){
+						$_SESSION['name'] = $username;
+						$_SESSION['success'] = "Success";
+						header('location: overview.php');
+					}
+					else 
+					{
+						$warningInvalid = "Invalid credentials." ;
+						echo $warningInvalid;
+					}
 				}
-				else 
-				{
-					$warningInvalid = "You or I have made a mistake." ;
-					echo $warningInvalid;
+				else{
+					echo "Two passwords are not the same or your password is too short" . "<br>";
 				}
 			}
 			else{
-				echo "Two passwords are not equal" . "<br>";
-				echo $password . "<br>";
-				echo $repassword . "<br>";
+				echo "Username already exists" . "<br>";
 			}
 		}
 	}	
@@ -141,9 +148,9 @@
 	
                     <div class="container top7">
                         <button name = "registerbutton" type="submit" class="btn btn-success">Register</button>
-                        <label class="radio-inline"><input type="radio" name="radio">Guest</label>
-                        <label class="radio-inline"><input type="radio" name="radio">Singer</label>
-                        <label class="radio-inline"><input type="radio" name="radio">Production Company</label>
+                        <label class="radio-inline"><input type="radio" value="0" name="radio">Guest</label>
+                        <label class="radio-inline"><input type="radio" value="1" name="radio">Singer</label>
+                        <label class="radio-inline"><input type="radio" value="2" name="radio">Production Company</label>
 
                     </div>
 
