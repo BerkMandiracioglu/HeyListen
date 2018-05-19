@@ -32,8 +32,18 @@ session_start();
 			if( $numberOfRows == 1 && $resultRow['password'] == $password )
 			{
 				$_SESSION['name'] = $userID;
-				$_SESSION['success'] = "Success";
-				header('location: overview.php');
+                $queryGetType = "select usertype from user where username = '".$userID."'";
+                $result = mysqli_query($database,$queryGetType);
+                $row = mysqli_fetch_assoc($result);
+                $_SESSION['type'] = $row['usertype'];
+                if($_SESSION['type']==3){
+
+                           $_SESSION['proname'] = $userID;
+                            header('location: ProductionCompanyViewStatistics.php');
+                }else{
+    				$_SESSION['success'] = "Success";
+    				header('location: overview.php');
+            }
 			}
 			else 
 			{

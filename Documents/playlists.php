@@ -3,43 +3,6 @@
 	include_once('server.php'); 
 	session_start();
 
-
-	if( isset($_GET['logOut'] ) ) 
-	{
-		header('location: logout.php');
-	}
-
-
-	if(isset($_POST['shareGroupButton'])){
-		$queryInsertIntPost = "insert into post(username, share_time) values('".$_SESSION['name']."',CURRENT_TIMESTAMP())";
-
-        mysqli_query($database, $queryInsertIntPost);
-
-          $queryInsertIntoPlayPost = "insert into post_playlist values(LAST_INSERT_ID(),'".$_POST['inputTwo']."','".$_POST['inputOne']."')"; 
-          mysqli_query($database, $queryInsertIntoPlayPost);
-          $queryGetGroupId = "( select G.ID as id, G.admin as admin,G.name as name from groups G, invite_user I where I.groupID = G.ID and I.receiver ='".$_SESSION['name']."' and G.name='".$_POST['search']."')
-          UNION (select G1.ID as id, G1.admin as admin,G1.name as name from groups G1 where G1.admin ='".$_SESSION['name']. "'and G1.name='".$_POST['search']."')";
-          $result = mysqli_query($database, $queryGetGroupId);
-          $res = mysqli_fetch_assoc($result);
-          $queryInsertIntoGroupPost = "insert into share_in_group values(LAST_INSERT_ID(),".$res['id'].")"; 
-
-		mysqli_query($database,$queryInsertIntoGroupPost );
-		header('location: group_page.php?groupname='.$res['name'].'& groupadmin='. $res['admin'].'& groupID='.$res['id']);
-
-		
-
-	}
-	if( isset( $_POST['submitButton']) )
-    {
-        //echo "heyy";
-        $searchType = $_POST["radio"];
-        echo $_POST['search'];
-        echo $searchType;
-        $_SESSION['radiotype'] = $_POST["radio"];
-        $_SESSION['search'] = $_POST['search'];
-        header('location: search.php');
-    }
-
 	if( isset( $_POST['submitPlaylist']) )
 	{
 		$playlistName = mysqli_real_escape_string( $database, $_POST['playlistName'] );
@@ -47,7 +10,6 @@
 		$queryPlaylist = "insert into playlist (username, name,isPrivate) values('$name', '$playlistName', '0');"; // 0 indicates not private
 		$resultOfQueryAddPlaylist = mysqli_query($database, $queryPlaylist);
 		header('location: playlists.php');
-
 
 		
 		/*if(empty($playlistName))
@@ -97,7 +59,7 @@
 </head>
 
 <body>
-
+		
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -105,43 +67,49 @@
             <a class="navbar-brand" href="#">HeyListen</a>
         </div>
         <ul class="nav navbar-nav">
-            <li ><a href="mainPage.php">Main Page</a></li>
+            <li ><a href="#">Main Page</a></li>
             <li >
 
-                <a href="discover.php">Discover</a>
+                <a href="#">Discover</a>
             </li>
-            <li><a href="songs.php">Songs</a></li>
-            <li><a href="albums.php">Albums</a></li>
-         
- 
+            <li><a href="#">Songs</a></li>
+            <li><a href="#">Albums</a></li>
+            <li><a href="#">PlayLists</a></li>
+
 
         </ul>
-       
-
-         <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="overview.php?nameOther=<?php echo $_SESSION['name'];?>"><span class="glyphicon glyphicon-user"></span> </a></li>
-            <li><a href="overview.php?logOut=<?php echo '1'?>"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <form class="navbar-form navbar-left" action="/action_page.php">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <i class="glyphicon glyphicon-music"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li ><a href="#"><span class="glyphicon glyphicon-user"></span> </a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
         </ul>
     </div>
 </nav>
 <div class="container">
 
-    <h1> <?php echo $_SESSION['qname']; ?> </h1>
+    <h1> <?php echo $_SESSION['name']; ?> </h1>
     <br>
-  
-    
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary">Invite Group</button>
+        <button type="button" class="btn btn-success">Follow <span class="glyphicon glyphicon-send "></span></button>
+
+    </div>
+    <br>
     <ul class="nav nav-tabs">
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/overview.php?nameOther=<?php echo $_SESSION['qname']?>">Overview</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/overview.php">Overview</a></li>
         <li class="active"><a href="#">Playlists</a></li>
         <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/groups.php">Groups</a></li>
         <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/following.php">Following</a></li>
         <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/follower.php">Follower</a></li>
-        <?php 
-        if($_SESSION['type'] == 2){
-         echo '<li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianSong.php">Publish and View Songs</a></li>
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianAlbum.php">Publish and View Albums</a></li>';
-        }
-        ?>
     </ul>
     <table class="table table-hover">
         <thead>
@@ -172,12 +140,7 @@
         </thead>
         <tbody>
 		<?php
-					$query = "(select name,username, time from playlist where username='".$_SESSION['qname']."') UNION
-					(select P.name as name, P.username username, P.time as time from playlist P, follow_like_playlist F where F.userUsername='".$_SESSION['qname']."' and
-					P.name = F.playlistName and type = 3)
-
-
-					";   
+					$query = "select name,username, time from playlist where username='".$_SESSION['name']."'";   
 					$resultOfQuery = mysqli_query($database, $query);
 					while( $row = mysqli_fetch_assoc($resultOfQuery) )
 					{ ?>		
@@ -198,35 +161,8 @@
 
 								<ul class="dropdown-menu">
 									<li><a href="playlist.php?name=<?php echo $row['name']?> & creator=<?php echo $row['username']?>">View Playlist <span class="glyphicon glyphicon-fire "></span></a></li>
-									<li><a href="overview.php?valueP=<?php echo $row['name']?>&valueU =<?php echo $row['username']?> ">Share <span class="glyphicon glyphicon-share "></span></a> </li>
-									<li>
-									<form method = "post">
-										 <div class="input-group">
-							                <input type="text" class="form-control" placeholder="Share in Group " name="search">
-							                <div class="input-group-btn">
-							                <?php echo '<input type="hidden" name="inputOne" value="'. $row['name'] .'" />
-							                <input type="hidden" name="inputTwo" value="'. $row['username'] .'" />
-
-
-
-							                ';
-
-
-
-							                ?>
-							                    <button class="btn btn-default" name ="shareGroupButton" type="submit">
-							                        <i class="glyphicon glyphicon-share"></i>
-							                    </button>
-							                    </span>
-							                    
-							                </div>
-							            </div>  
-							        </form>
-							            
-							           
-
-								
-									</li>
+									<li><a href="#">Share <span class="glyphicon glyphicon-share "></span></a> </li>
+									<li><a href="#">Share in Group <span class="glyphicon glyphicon-share "></span></a> </li>
 									<li><a href="playlists.php?pName=<?php echo $row['name'] ?>" class="btn" type = "submit" role = "button" name= "deletePlaylist" >Delete <span class="glyphicon glyphicon-fire "></span>
 									
 									</a></li>

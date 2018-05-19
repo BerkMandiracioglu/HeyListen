@@ -19,6 +19,9 @@
 	
 	if(isset ($_POST['like_button']))
 	{
+		
+
+
 		$queryLikePlaylist = "insert into follow_like_playlist values('".$_SESSION['name']."','".$_GET['creator']."','".$_GET['name']."', 2,CURRENT_TIMESTAMP())";
 
 
@@ -68,7 +71,6 @@
 	
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +82,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<?php echo $queryUnfollowPlaylist; ?>
+<br>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -157,7 +160,7 @@
 	<br>
 	 <ul class="nav nav-tabs">
 	 	<li class = "active"><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/playlist.php">View</a></li>
-		<li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/comment.php?creator=<?php echo $_GET['creator']?> & pname=<?php echo $_SESSION['pname']?>"><span class="glyphicon glyphicon-comment"></span>Comment</a></li>
+		<li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/comment.php"><span class="glyphicon glyphicon-comment"></span>Comment</a></li>
 		<form method = "post"  >
 			<button  type="submit"  name="like_button" class="glyphicon glyphicon-thumbs-up"> 
 				<font face="verdana" color="green"> 
@@ -179,6 +182,16 @@
 	
    
         <br>
+    <form>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Filter" name="filter">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
     </br>
 
 
@@ -191,14 +204,7 @@
 			
 
             <th><span class="glyphicon glyphicon-time"></span></th>
-			<?php 
-			echo $_SESSION['name'];
-			echo $_SESSION['pname'];
-			$queryPrivacy = "select isPrivate from playlist where username = '".$_SESSION['name']."' and name ='".$_SESSION['pname']."'";
-			$resultOfPrivacy = mysqli_query($database, $queryPrivacy);
-			$rowPrivacy = mysqli_fetch_assoc($resultOfPrivacy);
-			
-			?>
+
         </tr>
         </thead>
         <tbody>
@@ -230,7 +236,7 @@
 							where
 							  I.ID = S.ID
 							  and P.songID = S.ID
-							  and P.username = '".$_GET['creator']."'
+							  and P.username = '".$_SESSION['name']."'
 							  and P.name = '".$_SESSION['pname']."' 
 						  ) t
 						where
@@ -251,20 +257,20 @@
 							<span class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown"></span>
 
 							<ul class="dropdown-menu">
-								<li><a href="overview.php?otherName=<?php echo $row['artistname']?>">View Artist/Band</a></li>
+								<li><a href="playlist.php?stitle=<?php echo $row['title']?> & idArtist=<?php echo $row['artistid']?> & name=<?php echo $_GET['name'] ?> & creator=<?php echo $_GET['creator'] ?> & nameArtist=<?php echo $row['artistname']?>">View Artist/Band</a></li>
 								<li><a href="album.php?nameAlbum=<?php echo $row['albumname']?> & nameArtist=<?php echo $row['artistname']?> & idAlbum=<?php echo $row['IDalbum']?>">View Album</a></li>
 								<li><a href="#">Add to Playlist:</a></li>
-								<li> <form method = "post" action="addToPL.php?stitle=<?php echo $row['title']?> & idSong=<?php echo $row['idSong']?> & name=<?php echo $_POST['playlistName'] ?> & creator=<?php echo $_GET['creator'] ?>">
+								<li><form method = "post" action="addToPL.php?stitle=<?php echo $row['title']?> & idSong=<?php echo $row['idSong']?> & name=<?php echo $_POST['playlistName'] ?> & creator=<?php echo $_GET['creator'] ?>"
 								
-								<input type="text" class="form-control" placeholder="Enter Playlist Name:" name="playlistName"> </input> 
-									<button type="submit" name = "addToPlayList" class="btn btn-primary" >
+								<li><input type="text" class="form-control" placeholder="Enter Playlist Name:" name="playlistName"> </input> </li>
+									<li> <button type="submit" name = "addToPlayList" class="btn btn-primary" >
 										<i class="glyphicon glyphicon-ok"></i>
-									</button> 
+									</button> </li>
 								
 								</form></li>
 								<li><a href="playlist.php?stitle=<?php echo $row['title']?> & idSong=<?php echo $row['idSong']?> & name=<?php echo $_GET['name'] ?> & creator=<?php echo $_GET['creator'] ?>" class="btn" type = "submit" role = "button" name= "removeSong" >Remove <span class="glyphicon glyphicon-fire "></span>
 								</a></li>
-								<li><a href="overview.php?stitle=<?php echo $row['title']?> & idSong=<?php echo $row['idSong']?> & name=<?php echo $_GET['name'] ?> & creator=<?php echo $_GET['creator'] ?>">Share <span class="glyphicon glyphicon-share "></span></a> </li>
+								<li><a href="#">Share <span class="glyphicon glyphicon-share "></span></a> </li>
 								<li><a href="#">Share in Group <span class="glyphicon glyphicon-share "></span></a> </li>
 							</ul>
 						</div>

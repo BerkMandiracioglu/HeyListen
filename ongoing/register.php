@@ -18,6 +18,7 @@
 		$country = mysqli_real_escape_string( $database ,$_POST[ 'country'] );
 		$usertype = $_POST["radio"];
 
+
 		if(empty($username))
 		{
 			$warning = "true";
@@ -64,7 +65,15 @@
 					if( $resultOfQuery ){
 						$_SESSION['name'] = $username;
 						$_SESSION['success'] = "Success";
-						header('location: overview.php');
+                        $_SESSION['type'] = $usertype;
+                        if($usertype == 3){
+
+                           $_SESSION['proname']=$username;
+                            header('location: ProductionCompanyViewStatistics.php');
+                        }
+                        else{
+					   	   header('location: overview.php');
+                        }
 					}
 					else 
 					{
@@ -129,6 +138,7 @@
                 <span class="error"><font color="red">  <?php echo $warningRepassword;?></font></span>
                 <span class="error"><font color="red">  <?php echo $warningAlreadyExist;?></font></span>
                 <span class="error"><font color="red">  <?php echo $warningTooShort;?></font></span>
+                <?php  echo $_SESSION['artistid']; ?>
 
                 <div  class="row top15">
 

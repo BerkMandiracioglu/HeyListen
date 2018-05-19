@@ -2,6 +2,21 @@
 	include_once('server.php');
 	session_start();
 	
+	if( isset( $_POST['addGroupButton']) )
+	{
+		$admin_name = $_SESSION['name'];
+		$group_name = $_POST['groupName'];
+		$addGroupQuery = "INSERT INTO groups(admin, name)
+							VALUES('$admin_name','$group_name' )";
+		$resultAdd = mysqli_query($database, $addGroupQuery);
+		header('location: groups.php');
+
+	}
+    if( isset($_GET['logOut'] ) ) 
+    {
+        header('location: logout.php');
+    }
+	
 ?>
 
 <!DOCTYPE html>
@@ -15,67 +30,50 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="alert alert-success">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-    <strong>Success!</strong>
-    <form>
-        <div class="input-group">
 
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="grup" type="text" class="form-control" name="email" placeholder="Group-Name">
-        </div>
 
-    </form>
-</div>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">HeyListen</a>
         </div>
         <ul class="nav navbar-nav">
-            <li ><a href="#">Main Page</a></li>
+           <li ><a href="mainPage.php">Main Page</a></li>
             <li >
 
-                <a href="#">Discover</a>
+                <a href="discover.php">Discover</a>
             </li>
-            <li><a href="#">Songs</a></li>
-            <li><a href="#">Albums</a></li>
-            <li><a href="#">PlayLists</a></li>
+            <li><a href="songs.php">Songs</a></li>
+            <li><a href="albums.php">Albums</a></li>
+          
 
 
         </ul>
-        <form class="navbar-form navbar-left" action="/action_page.php">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="search">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
-                        <i class="glyphicon glyphicon-music"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
+       
         <ul class="nav navbar-nav navbar-right">
-            <li ><a href="#"><span class="glyphicon glyphicon-user"></span> </a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            <li ><a href="overview.php?nameOther=<?php echo $_SESSION['name'];?>"><span class="glyphicon glyphicon-user"></span> </a></li>
+            <li><a href="overview.php?logOut=<?php echo '1'?>"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
         </ul>
     </div>
 </nav>
 <div class="container">
 
-    <h1>Ýrem Ural</h1>
-    <br>
-    <div class="btn-group">
-        <button type="button" class="btn btn-primary">Invite</button>
-        <button type="button" class="btn btn-success">Follow <span class="glyphicon glyphicon-send "></span></button>
+    <h1><?php echo $_SESSION['qname'];?></h1>
+   
 
-    </div>
     <br>
     <ul class="nav nav-tabs">
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/overview.php">Overview</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/overview.php?nameOther=<?php echo $_SESSION['qname']?>">Overview</a></li>
         <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/playlists.php">Playlists</a></li>
         <li class="active"><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/following.php">Groups</a></li>
         <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/following.php">Following</a></li>
         <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/follower.php">Follower</a></li>
+           <?php 
+        if($_SESSION['type'] == 2){
+         echo '<li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianSong.php">Publish and View Songs</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianAlbum.php">Publish and View Albums</a></li>';
+        }
+        ?>
     </ul>
     <table class="table table-hover">
         <thead>
@@ -85,16 +83,17 @@
             <th> <div class="dropdown">
                 <span class="glyphicon glyphicon-plus dropdown-toggle" data-toggle="dropdown"> Create New Group</span>
                 <ul class="dropdown-menu">
-                    <li><form >
+                    <li><form method = "post" action ="groups.php" >
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Name:" name="credit">
+                        <input type="text" class="form-control" placeholder="Name:" name="groupName">
                         <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
+                            <button name="addGroupButton" class="btn btn-default" type="submit">
                                 <i class="glyphicon glyphicon-user"></i>
                             </button>
                         </div>
                     </div>
-                    </th>
+					</form></li>
+            </th>
 
         </tr>
         </thead>
@@ -122,10 +121,8 @@
 			<span class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown"></span>
 
 			<ul class="dropdown-menu">
-			<li><a href="#">View Playlist <span class="glyphicon glyphicon-fire "></span></a></li>
-			<li><a href="#">Share <span class="glyphicon glyphicon-fire "></span></a></li>
-			<li><a href="#">Share in Group <span class="glyphicon glyphicon-fire "></span></a></li>
-			<li><a href="#">Delete <span class="glyphicon glyphicon-fire "></span></a></li>
+			<li><a href="group_page.php?groupname=<?php echo $row['name']?> & groupadmin=<?php echo $row['admin']?> & groupID=<?php echo $row['ID']?>">View Group<span class="glyphicon glyphicon-fire "></span></a></li>
+			<li><a href="deleteGroup.php?deletor=<?php echo $_SESSION['name'] ?>&groupadmin=<?php echo $row['admin']?>&groupname=<?php echo $row['name'] ?>" class="btn" type = "submit" role = "button" name= "deleteGroup" >Delete <span class="glyphicon glyphicon-fire "></span>
 			</ul>
 			</div>
 			</td>

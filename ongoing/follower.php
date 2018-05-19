@@ -3,10 +3,12 @@
 	include_once('server.php'); 
 	session_start();
 
-	$query = "select name,time from playlist where username='".$_SESSION['name']."'";   
-	$resultOfQuery = mysqli_query($database, $query);
 	
 	
+	if( isset($_GET['logOut'] ) ) 
+	{
+		header('location: logout.php');
+	}
 	
 ?>
 
@@ -27,49 +29,46 @@
             <a class="navbar-brand" href="#">HeyListen</a>
         </div>
         <ul class="nav navbar-nav">
-            <li ><a href="#">Main Page</a></li>
+           <li ><a href="mainPage.php">Main Page</a></li>
             <li >
 
-                <a href="#">Discover</a>
+                <a href="discover.php">Discover</a>
             </li>
-            <li><a href="#">Songs</a></li>
-            <li><a href="#">Albums</a></li>
-            <li><a href="#">PlayLists</a></li>
+            <li><a href="songs.php">Songs</a></li>
+            <li><a href="albums.php">Albums</a></li>
+
 
 
         </ul>
-        <form class="navbar-form navbar-left" action="/action_page.php">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="search">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
-                        <i class="glyphicon glyphicon-music"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
+  
         <ul class="nav navbar-nav navbar-right">
-            <li ><a href="#"><span class="glyphicon glyphicon-user"></span> </a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            <li ><a href="overview.php?nameOther=<?php echo $_SESSION['name'];?>"><span class="glyphicon glyphicon-user"></span> </a></li>
+            <li><a href="overview.php?logOut=<?php echo '1'?>"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
         </ul>
     </div>
 </nav>
 <div class="container">
 
-    <h1>İrem Ural</h1>
-    <br>
-    <div class="btn-group">
-        <button type="button" class="btn btn-primary">Invite</button>
-        <button type="button" class="btn btn-success">Follow <span class="glyphicon glyphicon-send "></span></button>
 
-    </div>
+
+        <h1><?php echo $_SESSION['qname']; ?></h1>
+
+    <br>
+    
     <br>
     <ul class="nav nav-tabs">
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/overview.php">Overview</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/overview.php?nameOther=<?php echo $_SESSION['qname']?>">Overview</a></li>
         <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/playlists.php">Playlists</a></li>
-        <li><a href="#">Groups</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/groups.php">Groups</a></li>
         <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/following.php">Following</a></li>
         <li class="active"><a href="#">Follower</a></li>
+         <?php 
+        if($_SESSION['type'] == 2){
+         echo '<li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianSong.php">Publish and View Songs</a></li>
+        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianAlbum.php">Publish and View Albums</a></li>';
+        }
+        ?>
     </ul>
     <table class="table table-hover">
         <thead>
@@ -92,7 +91,16 @@
 							<span class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown"></span>
 
 								<ul class="dropdown-menu">
-									<li><a href="#">Follow <span class="glyphicon glyphicon-send "></span></a></li>
+									<li><a href="followOrUnfollow.php?followername=<?php echo $_SESSION['name']?>&followedname=<?php echo $row['follower_id']?>"> <?php 
+									$checkFollowQuery = "select * from follow_user where follower_id='".$_SESSION['name']."' and followed_id = '".$row['follower_id']."'";
+									$resultOfFollowQuery = mysqli_query($database, $checkFollowQuery);
+									$numberOfRows = mysqli_num_rows( $resultOfFollowQuery );
+									if($numberOfRows == 1)
+										echo "Unfollow";
+									else
+										echo "Follow";									
+									?>
+									<span class="glyphicon glyphicon-send "></span></a></li>
 	
 								</ul>
 							</div>

@@ -2,42 +2,8 @@
 
 	include_once('server.php'); 
 	session_start();
-    if(isset($_GET['valueP'])){
-        $queryInsertIntPost = "insert into post(username, share_time) values('".$_SESSION['name']."',CURRENT_TIMESTAMP())";
 
-        mysqli_query($database, $queryInsertIntPost);
-
-          $queryInsertIntoPlayPost = "insert into post_playlist values(LAST_INSERT_ID(),'".$_GET['valueU']."','".$_GET['valueP']."')"; 
-          mysqli_query($database, $queryInsertIntoPlayPost);
-    }
-    if(isset($_GET['stitle'])){
-        $queryInsertIntPost = "insert into post(username, share_time) values('".$_SESSION['name']."',CURRENT_TIMESTAMP())";
-
-        mysqli_query($database, $queryInsertIntPost);
-
-          $queryInsertIntoPlayPost = "insert into post_song values(LAST_INSERT_ID(),".$_GET['idSong'].")"; 
-          mysqli_query($database, $queryInsertIntoPlayPost);
-    }
-	if( isset( $_POST['add_budget']) )
-	{
-		$name = $_POST['name'];
-		$cardno = $_POST['cardno'];
-		$exp_date = $_POST['exp_date'];
-		$cvc = $_POST['cvc'];
-		$addedbudget = $_POST['budget'];
-		
-		if( strlen($name) > 0 && strlen($cardno) == 16 && strlen($exp_date) == 4 && strlen($cvc) == 3 && strlen($addedbudget) > 0 ){
-			$budgetQuery = "UPDATE user SET budget = budget + '$addedbudget' WHERE username='".$_SESSION['name']."'";
-			$resultOfBudgetQuery = mysqli_query($database, $budgetQuery);
-			header('location: overview.php');
-		}
-		else{
-				echo '<script type="text/javascript">';
-				echo'alert("Invalid credentials");';
-				echo 'window.location = "./overview.php";';
-				echo '</script>';
-		}
-	}
+	
 	
 	if( isset( $_POST['submitButton']) )
     {
@@ -81,7 +47,7 @@
             </li>
             <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/songs.php">Songs</a></li>
             <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/albums.php">Albums</a></li>
-          
+  
 
 
         </ul>
@@ -99,9 +65,9 @@
                     <label class="radio-inline"><input type="radio" value="1" name="radio">User</label>
                     <label class="radio-inline"><input type="radio" value="2" name="radio">Album</label>
                     <label class="radio-inline"><input type="radio" value="3" name="radio">Songs</label>
-                      <label class="radio-inline"><input type="radio" value="4" name="radio">Playlist</label>
+                     
                     <label class="radio-inline"><input type="radio" value="5" name="radio">Singer</label>
-                    
+                   
                 </div>
             </div>
         </form>
@@ -130,117 +96,10 @@
 
 
 <div class="container">
-  <?php 
-        if ($_GET['nameOther'] && $_GET['nameOther'] != $_SESSION['name'] )
-        {
-           
-            $_SESSION['qname'] = $_GET['nameOther'];
-            $other = $_GET['nameOther'];?>
-            <h1><?php echo "$other's Profile"; ?> </h1>
-        <?php }
-        else{?>
-        <h1><?php echo "Your Profile"; ?></h1>
-     <?php } ?>
-    <br>
-        <?php
-            if( !$_GET['nameOther'] || $_GET['nameOther'] == $_SESSION['name'] )
-            {
-                $_SESSION['qname']=$_SESSION['name'];
-;            $query = "select budget from user where username='".$_SESSION['name']."'";   
-            $resultOfQuery = mysqli_query($database, $query);
-            while( $row = mysqli_fetch_assoc($resultOfQuery) )
-                    { ?>        
-                        <tr> 
-                            <td> <?php echo 'Budget: '; ?> </td>
-                            <td><?php  echo $row['budget']; ?></td>
-                        </tr>
-                    <?php }
-                    
-                    
-            echo '<div class="dropdown">
-                <span class="glyphicon glyphicon-shopping-cart dropdown-toggle" data-toggle="dropdown"> $</span>
-                <ul class="dropdown-menu">
-				<form method="post">
-                    <li>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Name:" name="name">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" type="button" disabled>
-                                <i class="glyphicon glyphicon-tags"></i>
-                            </button>
-                        </div>
-                    </div>
-                </li>
-                    <li>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Credit-Card No:" name="cardno">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button" disabled>
-                                    <i class="glyphicon glyphicon-credit-card"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Expiration Date:" name="exp_date">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button" disabled>
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="CVC No:" name="cvc">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button" disabled>
-                                    <i class="glyphicon glyphicon-barcode"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-					<li>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Added budget:" name="budget">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button" disabled>
-                                    <i class="glyphicon glyphicon-barcode"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                    <li><button type="submit" class="btn btn-default" name="add_budget">Submit</button></li>
-					</form>
-                </ul>
-            </div>';
-            ?>
-        
-            <?php }?>
-
+ 
     
-    
-
-    <br>
-    <ul class="nav nav-tabs">
-
-        <li class="active"><a href="#">Overview</a></li>
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/playlists.php">Playlists</a></li>
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/groups.php">Groups</a></li>
-        <li ><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/following.php">Following</a></li>
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/follower.php">Follower</a></li>
-
-        <?php 
-        if($_SESSION['type'] == 2){
-         echo '<li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianSong.php">Publish and View Songs</a></li>
-        <li><a href="http://dijkstra.ug.bcc.bilkent.edu.tr/~iremural/deneme/musicianAlbum.php">Publish and View Albums</a></li>';
-        }
-        ?>
-    </ul>
-
-   <!-- <h2>Your Friends' Activity</h2>-->
-    <br>
+<h1>Your Friend's Activity</h1>
+<br>
 
 <?php
  
@@ -252,23 +111,25 @@ function cmp($a, $b)
         $object = new stdClass();
       
         $object->follow_like_playlist_type = 'Here we go';
-        $query1 = "select userUsername, creatorUserName,playlistName,time,type from follow_like_playlist F where  userUsername ='".$_SESSION['qname']."' order by time desc limit 10";
+        $query1 = "select userUsername, creatorUserName,playlistName,time,type from follow_like_playlist F where  userUsername in (select followed_id from follow_user where follower_id ='".$_SESSION['name']."') order by time desc limit 10";
      
         $result1 = mysqli_query($database, $query1);
 
-        $query2 = "select U.username as yourfriend, U1.username as followed,F.since from follow_user F, user U, user U1 where U1.username = F.followed_id and U.username = F.follower_id   and U.username ='".$_SESSION['qname']."' order by F.since desc limit 10";
+        $query2 = "select U.username as yourfriend, U1.username as followed,F.since from follow_user F, user U, user U1 where U1.username = F.followed_id and U.username = F.follower_id   and U.username in (select followed_id from follow_user where follower_id ='".$_SESSION['name']."') order by F.since desc limit 10";
      
         $result2 = mysqli_query($database, $query2);
 
        
         $query3 = "select username,p_username, p_name, share_time 
                 from post_playlist PO, post P
-                where PO.post_ID = P.ID  and P.username  ='".$_SESSION['qname']."' order by share_time desc limit 10";
+                where PO.post_ID = P.ID  and P.username  in
+                (select followed_id from follow_user where follower_id ='".$_SESSION['name']."') order by share_time desc limit 10";
         $result3 = mysqli_query($database, $query3);
 
         $query4 = "select I.name as songname, I.price as price,I.ID as id,P.username as name, P.share_time as share_time
                 from post_song PS, post P, items I
-                where PS.p_ID = P.ID and I.ID = PS.s_ID and P.username  ='".$_SESSION['qname']."' order by share_time desc limit 10";
+                where PS.p_ID = P.ID and I.ID = PS.s_ID and P.username  in
+                (select followed_id from follow_user where follower_id ='".$_SESSION['name']."') order by share_time desc limit 10";
         $result4 = mysqli_query($database, $query4);
         #echo $query4;
 
