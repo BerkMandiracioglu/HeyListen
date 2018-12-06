@@ -18,8 +18,7 @@ public class DBaccess {
             Class.forName("com.mysql.jdbc.Driver");
             // Setup the connection with the DB
             connect = DriverManager
-                    .getConnection("jdbc:mysql://dijkstra.cs.bilkent.edu.tr:3306/b_mandiracioglu"
-                            ,"b.mandiracioglu","jb9ryoe");
+                    .getConnection();
 
             // Statements allow to issue SQL queries to the database
             statement = connect.createStatement();
